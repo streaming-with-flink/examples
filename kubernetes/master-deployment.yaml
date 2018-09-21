@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: flink-master
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: flink
+        component: master
+    spec:
+      containers:
+      - name: master
+        image: flink:1.5
+        args:
+        - jobmanager
+        ports:
+        - containerPort: 6123
+          name: rpc
+        - containerPort: 6124
+          name: blob
+        - containerPort: 6125
+          name: query
+        - containerPort: 8081
+          name: ui
+        env:
+        - name: JOB_MANAGER_RPC_ADDRESS
+          value: flink-master
